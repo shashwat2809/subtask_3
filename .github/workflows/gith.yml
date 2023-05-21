@@ -14,4 +14,4 @@ jobs:
         - name: "meme post"
           uses: thollander/actions-comment-pull-request@v2
           with:
-            message: Check out this random meme!\n\n![Meme](https://pbs.twimg.com/media/Enm7QC7XYAEO-4L.jpg)
+            message: Check out this random meme!![Meme](https://pbs.twimg.com/media/Enm7QC7XYAEO-4L.jpg)
