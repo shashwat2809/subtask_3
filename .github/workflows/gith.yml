@@ -11,26 +11,16 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v2
 
-        - name: "Read JSON"
+        - name: "meme post"
           uses: actions/github-script@v6
-          id: check-env
           with:
             result-encoding: string
             script: |
-              try {
-                const fs = require('fs')
-                const jsonString = fs.readFileSync('https://meme-api.com/gimme')
-                var apps = JSON.parse(jsonString)
-                const message = 'Check out this random meme!\n\n![Meme]{ apps.getString("url") }';
-                github.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: message
-                }); 
-              } catch(err) {
-                core.error("Error while reading or parsing the JSON")
-                core.setFailed(err)
-              }
-
+              const message = 'Check out this random meme!\n\n![Meme]{https://pbs.twimg.com/media/Enm7QC7XYAEO-4L.jpg}';
+              github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              });
 
