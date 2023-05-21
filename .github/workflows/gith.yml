@@ -15,5 +15,19 @@ jobs:
           id: meme
           uses: gautamkrishnar/blog-post-workflow@master 
           with:
-            url: "https://meme-api.herokuapp.com/gimme" 
+            url: "https://meme-api.herokuapp.com/gimme/1"
+            
+        - name: Comment with Random Meme
+          uses: actions/github-script@v3
+          env:
+            MEME_IMAGE: ${{ steps.meme.outputs.url }}
+          with:
+            script: |
+              const message = 'Check out this random meme!\n\n![Meme](${{ env.MEME_IMAGE }})';
+              github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: message
+              }); 
 
