@@ -12,15 +12,6 @@ jobs:
           uses: actions/checkout@v2
 
         - name: "meme post"
-          uses: actions/github-script@v6
+          uses: thollander/actions-comment-pull-request@v2
           with:
-            result-encoding: string
-            script: |
-              const message = 'Check out this random meme!\n\n![Meme]{https://pbs.twimg.com/media/Enm7QC7XYAEO-4L.jpg}';
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              });
-
+            message: Check out this random meme!\n\n![Meme]{https://pbs.twimg.com/media/Enm7QC7XYAEO-4L.jpg}
