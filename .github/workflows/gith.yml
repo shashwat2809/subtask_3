@@ -11,23 +11,26 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v2
 
-        - name: Random meme
-          id: meme
-          uses: gautamkrishnar/blog-post-workflow@master 
+        - name: "Read JSON"
+          uses: actions/github-script@v6
+          id: check-env
           with:
-            url: "https://meme-api.herokuapp.com/gimme/1"
-            
-        - name: Comment with Random Meme
-          uses: actions/github-script@v3
-          env:
-            MEME_IMAGE: ${{ steps.meme.outputs.url }}
-          with:
+            result-encoding: string
             script: |
-              const message = 'Check out this random meme!\n\n![Meme](${{ env.MEME_IMAGE }})';
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              }); 
+              try {
+                const fs = require('fs')
+                const jsonString = fs.readFileSync('https://meme-api.com/gimme')
+                var apps = JSON.parse(jsonString)
+                const message = 'Check out this random meme!\n\n![Meme]{ apps.getString("url") }';
+                github.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: message
+                }); 
+              } catch(err) {
+                core.error("Error while reading or parsing the JSON")
+                core.setFailed(err)
+              }
+
 
